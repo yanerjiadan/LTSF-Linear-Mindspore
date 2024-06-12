@@ -299,13 +299,13 @@ F:.
 
 在项目目录下执行
 ```
-‘sh scripts/EXP-LongForecasting/Linear/exchange_rate.sh’
+‘bash scripts/EXP-LongForecasting/Linear/exchange_rate.sh’
 
 ```
 
 ## 3. mindspore实现版本
 
-代码仓库：https://github.com/XiShuFan/MAMO_mindspore
+代码仓库：https://github.com/yanerjiadan/LTSF-Linear-Mindspore
 
 ## 3.1 mindspore框架介绍
 
@@ -332,7 +332,7 @@ conda activate mindspore
 克隆已经实现好的mindspore版本LTSF-Linear代码：
 
 ```
-git clone https://github.com/XiShuFan/MAMO_mindspore.git
+git clone https://github.com/yanerjiadan/LTSF-Linear-Mindspore.git
 ```
 
 安装mindspore与必要依赖包：
@@ -348,19 +348,19 @@ pip install msadapter
 将Pytorch的API替换成mindspore的API，官方给出了[文档说明](https://www.mindspore.cn/docs/zh-CN/r1.7/note/api_mapping/pytorch_api_mapping.html)。
 下面是我在模型迁移过程替换的API以及Class：
 
-| pytorch API / Class       | mindspore API/Class                | 说明                          | 两者差异                                                     |
-| ------------------------- | ---------------------------------- | ----------------------------- | ------------------------------------------------------------ |
-| torch.from_numpy          | mindspore.tensor.from_numpy        | 从numpy得到tensor             | 无                                                           |
-| torch.tensor.to           | mindspore.tensor.to_device         | 将tensor传入指定的设备        | 无                                                           |
-| torch.zeros_like          | mindspore.ops.ZerosLike            | 获得指定shape的全零元素tensor | 无                                                           |
-| torch.nn.Sequential       | mindspore.nn.SequentialCell        | 整合多个网络模块              | 无                                                           |
-| torch.mean                | mindspore.ops.ReduceMean           | 计算均值                      | 无                                                           |
-| torch.optim.Adam          | mindspore.nn.Adam                  | 优化器                        | 无                                                           |
-| torch.nn.Module           | mindspore.nn.Cell                  | 神经网络的基本构成单位        |                                                              |
-| torch.nn.Linear           | mindspore.nn.Dense                 | 全连接层                      | PyTorch：全连接层，实现矩阵相乘的运算。<br />MindSpore：MindSpore此API实现功能与PyTorch基本一致，而且可以在全连接层后添加激活函数。 |
-| torch.cat                 | mindspore.ops.concat               | tensor按照指定维度拼接        | 无                                                           |
-| torch.tensor.view         | mindspore.ops.Reshape              | 重新排列tensor的维度          | 无                                                           |
-| Adam.zero_grad            | Adam.clear_grad                    | 清除梯度                      | 无                                                           | 
+| pytorch API / Class | mindspore API/Class         | 说明                   | 两者差异                                                     |
+|---------------------|-----------------------------|----------------------| ------------------------------------------------------------ |
+| torch.from_numpy    | mindspore.tensor.from_numpy | 从numpy得到tensor       | 无                                                           |
+| torch.tensor.to     | mindspore.tensor.to_device  | 将tensor传入指定的设备       | 无                                                           |
+| torch.zeros_like    | mindspore.ops.ZerosLike     | 获得指定shape的全零元素tensor | 无                                                           |
+| torch.nn.ModuleList | mindspore.nn.CellList       | 多个模块按列表串联            | 无                                                           |
+| torch.mean          | mindspore.ops.ReduceMean    | 计算均值                 | 无                                                           |
+| torch.optim.Adam    | mindspore.nn.Adam           | 优化器                  | 无                                                           |
+| torch.nn.Module     | mindspore.nn.Cell           | 神经网络的基本构成单位          |                                                              |
+| torch.nn.Linear     | mindspore.nn.Dense          | 全连接层                 | PyTorch：全连接层，实现矩阵相乘的运算。<br />MindSpore：MindSpore此API实现功能与PyTorch基本一致，而且可以在全连接层后添加激活函数。 |
+| torch.cat           | mindspore.ops.concat        | tensor按照指定维度拼接       | 无                                                           |
+| torch.tensor.view   | mindspore.ops.Reshape       | 重新排列tensor的维度        | 无                                                           |
+| Adam.zero_grad      | Adam.clear_grad             | 清除梯度                 | 无                                                           | 
 
 对data_provider和model中的python文件，使用MSAdapter对pytorch代码进行mindspore迁移
 ```python
